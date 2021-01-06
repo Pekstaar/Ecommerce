@@ -10,12 +10,17 @@ import { useSelector } from "react-redux";
 import { NotificationManager } from "react-notifications";
 import { CreateForm } from "../../../components/forms/ProductCreateForm";
 import { initialState } from "./data";
+import FileUpload from "../../../components/forms/FileUpload";
+import { Badge } from "antd";
+import Avatar from "antd/lib/avatar/avatar";
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
-  const [showSub, setShowSub] = useState(false);
+  const [showSub] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   // const [brands, setBrands] = useState([]);
 
   const { user } = useSelector((state) => ({ ...state }));
@@ -39,7 +44,6 @@ const ProductCreate = () => {
   };
 
   //  setBrands(c.data)
-  let loading = false;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -94,6 +98,31 @@ const ProductCreate = () => {
 
           {/* create product form */}
           <div className="product_create__form_container bg-light mt-2">
+            {/* {JSON.stringify(values.images)} */}
+
+            {/* image upload form */}
+            <div className="border p-2 ">
+              <div className="row pl-2">
+                {values.images &&
+                  values.images.map((image) => (
+                    <Badge count={"x"} className="ml-3">
+                      <Avatar
+                        key={image.public_id}
+                        src={image.url}
+                        size={158}
+                        shape="square"
+                      />
+                    </Badge>
+                  ))}
+              </div>
+              <FileUpload
+                user={user}
+                setLoading={setLoading}
+                values={values}
+                setValues={setValues}
+              />
+            </div>
+
             <CreateForm
               handleSubmit={handleSubmit}
               values={values}
