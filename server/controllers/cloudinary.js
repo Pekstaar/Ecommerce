@@ -8,10 +8,12 @@ cloudinary.config({
 });
 
 exports.upload = async (req, res) => {
-  let result = await cloudinary.uploader.upload(req.body.image, {
-    public_id: `${Date.now()}`,
-    resource_type: "auto",
-  });
+  let result = await cloudinary.uploader
+    .upload(req.body.image, {
+      public_id: `${Date.now()}`,
+      resource_type: "auto",
+    })
+    .catch((err) => res.send(err));
 
   res.json({
     public_id: result.public_id,
@@ -22,7 +24,7 @@ exports.upload = async (req, res) => {
 exports.remove = (req, res) => {
   let img_id = req.body.public_id;
 
-  cloudinary.uploader.destroy(image_id, (err, result) => {
+  cloudinary.uploader.destroy(img_id, (err, result) => {
     if (err) return res.json({ success: false, err });
     res.send("DELETED!");
   });

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import Resizer from "react-image-file-resizer";
+import { UploadOutlined } from "@ant-design/icons";
 
 const FileUpload = ({ user, values, setValues, setLoading }) => {
   const fileUploadAndResize = (e) => {
@@ -60,7 +61,7 @@ const FileUpload = ({ user, values, setValues, setLoading }) => {
         marginTop: "6px",
       }}
     >
-      CHOOSE FILE UPLOAD:
+      <UploadOutlined /> &nbsp; CHOOSE FILE UPLOAD:
       <input
         type="file"
         multiple

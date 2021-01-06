@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Navigation from "../../../components/forms/ProductNavigation";
 import AdminNav from "../../../components/nav/AdminNav";
 import Axios from "axios";
+import axios from "axios";
+import Avatar from "antd/lib/avatar/avatar";
+import FileUpload from "../../../components/forms/FileUpload";
 import "./product.css";
 
 import { createProduct } from "../../../functions/product";
@@ -10,9 +13,7 @@ import { useSelector } from "react-redux";
 import { NotificationManager } from "react-notifications";
 import { CreateForm } from "../../../components/forms/ProductCreateForm";
 import { initialState } from "./data";
-import FileUpload from "../../../components/forms/FileUpload";
 import { Badge } from "antd";
-import Avatar from "antd/lib/avatar/avatar";
 
 const ProductCreate = () => {
   const [values, setValues] = useState(initialState);
@@ -81,6 +82,36 @@ const ProductCreate = () => {
     });
   };
 
+  const handleImageRemove = (public_id) => {
+    //delete function
+    setLoading(true);
+    // console.log("remove image", id);
+    axios
+      .post(
+        `${process.env.REACT_APP_API}/removeimage`,
+        { public_id },
+        {
+          headers: {
+            authtoken: user ? user.token : "",
+          },
+        }
+      )
+      .then((res) => {
+        const { images } = values;
+
+        let filtImages = images.filter((item) => {
+          return item.public_id !== public_id;
+        });
+
+        setValues({ ...values, images: filtImages });
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -102,16 +133,24 @@ const ProductCreate = () => {
 
             {/* image upload form */}
             <div className="border p-2 ">
-              <div className="row pl-2">
+              <div className="row pl-2 ">
                 {values.images &&
                   values.images.map((image) => (
-                    <Badge count={"x"} className="ml-3">
-                      <Avatar
-                        key={image.public_id}
-                        src={image.url}
-                        size={158}
-                        shape="square"
-                      />
+                    <Badge
+                      key={image.public_id}
+                      count={"x"}
+                      className="ml-3 mb-2"
+                      title="Delete?"
+                      size="default"
+                      style={{
+                        background: "#F32013",
+                        cursor: "pointer",
+                        fontSize: "15px",
+                        fontWeight: "500",
+                      }}
+                      onClick={() => handleImageRemove(image.public_id)}
+                    >
+                      <Avatar src={image.url} size={158} shape="square" />
                     </Badge>
                   ))}
               </div>
