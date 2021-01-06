@@ -1,6 +1,8 @@
 import { ReloadOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 
+import PulseLoader from "react-spinners/PulseLoader";
+
 export const Navigation = ({ loading }) => (
   <nav
     className="navbar mb-1 bg-light form-inline"
@@ -20,7 +22,7 @@ export const Navigation = ({ loading }) => (
         className="navbar-brand "
         style={{ fontFamily: "Roboto", margin: "auto" }}
       >
-        <strong className="text-warning">LOADING . . .</strong>
+        <PulseLoader color={"gray"} loading={loading} size={16} margin={4} />
       </h3>
     ) : (
       <h4
