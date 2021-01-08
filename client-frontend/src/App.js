@@ -12,6 +12,10 @@ import Home from "./pages/Home";
 import AdminDashbord from "./pages/admin/AdminDashbord.js";
 import CategoryUpdate from "./pages/admin/category/CategoryUpdate.js";
 import CategoryCreate from "./pages/admin/category/CategoryCreate.js";
+import SubUpdate from "./pages/admin/category/sub/subUpdate.js";
+import ProductCreate from "./pages/admin/product/ProductCreate.js";
+import SubCreate from "./pages/admin/category/sub/subCreate.js";
+import Products from "./pages/admin/product/Products.js";
 
 import { History } from "./pages/user/History.js";
 import { authentication } from "./Firebase";
@@ -22,9 +26,6 @@ import { Password } from "./pages/user/Password.js";
 import { WishList } from "./pages/user/Wishlist.js";
 import { AdminRoute } from "./components/routes/AdminRoute.js";
 import { DBStatus } from "./functions/DBConn.js";
-import SubUpdate from "./pages/admin/category/sub/subUpdate.js";
-import ProductCreate from "./pages/admin/product/ProductCreate.js";
-import SubCreate from "./pages/admin/category/sub/subCreate.js";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -80,6 +81,7 @@ const App = () => {
         <AdminRoute exact path="/admin/sub" component={SubCreate} />
         <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate} />
         <AdminRoute exact path="/admin/product" component={ProductCreate} />
+        <AdminRoute exact path="/admin/products" component={Products} />
       </Switch>
     </div>
   );

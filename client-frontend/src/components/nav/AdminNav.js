@@ -38,7 +38,7 @@ const AdminNav = (props) => {
         <Item key="product">
           <Link to="/admin/product">Product</Link>
         </Item>
-        <Item key="products">
+        <Item key="prods">
           <Link to="/admin/products">Products</Link>
         </Item>
         <Item key="category">
