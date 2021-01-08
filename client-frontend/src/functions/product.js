@@ -8,6 +8,10 @@ export const createProduct = async (prod, authtoken) =>
     },
   });
 
-export const readBrands = async () => {
+//get products by list
+export const getProductsByCount = async (count) =>
+  await axios.get(`${process.env.REACT_APP_API}/products/${count}`);
+
+//get brands
+export const readBrands = async () =>
   await axios.get(`${process.env.REACT_APP_API}/product/brands`);
-};

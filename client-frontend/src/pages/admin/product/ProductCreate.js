@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navigation from "../../../components/forms/ProductNavigation";
+import Navigation from "../../../components/nav/TitleNavigation";
 import AdminNav from "../../../components/nav/AdminNav";
 import Axios from "axios";
 import axios from "axios";
@@ -125,7 +125,7 @@ const ProductCreate = () => {
           {/* Product create From */}
 
           {/* title display */}
-          <Navigation loading={loading} />
+          <Navigation heading="CREATE NEW PRODUCT :" loading={loading} />
 
           {/* create product form */}
           <div className="product_create__form_container bg-light mt-2">

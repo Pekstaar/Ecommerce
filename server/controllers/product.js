@@ -14,9 +14,15 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.read = async (req, res) => {
-  try {
-    //get list of items in datebase
-    res.json(await Product.find({}));
-  } catch (e) {}
+exports.listProducts = async (req, res) => {
+  //get list of items in datebase
+
+  let products = await Product.find({})
+    .limit(parseInt(req.params.count))
+    .populate("category")
+    .populate("subs")
+    .sort([["created", "desc"]])
+    .exec();
+
+  res.json(products);
 };

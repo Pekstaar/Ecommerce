@@ -3,7 +3,7 @@ import { Button, Tooltip } from "antd";
 
 import PulseLoader from "react-spinners/PulseLoader";
 
-export const Navigation = ({ loading }) => (
+export const Navigation = ({ loading, heading }) => (
   <nav
     className="navbar mb-1 bg-light form-inline"
     style={{ borderRadius: "10px 10px 0 0", width: "100%" }}
@@ -29,7 +29,7 @@ export const Navigation = ({ loading }) => (
         className="navbar-brand"
         style={{ fontFamily: "Roboto", margin: "auto " }}
       >
-        <strong> CREATE NEW PRODUCT : </strong>
+        <strong> {heading} </strong>
       </h4>
     )}
 
