@@ -1,5 +1,4 @@
 const Product = require("../models/product");
-const Brands = require("../models/brands");
 const slugify = require("slugify");
 
 exports.create = async (req, res) => {
@@ -28,16 +27,17 @@ exports.listProducts = async (req, res) => {
 };
 
 // delete product
-exports.remove = async (req, res) => {
+exports.removeProduct = async (req, res) => {
   try {
-    const deletedProduct = await Product.findOneAndRemove({
+    const deleted = await Product.findOneAndRemove({
       slug: req.params.slug,
     }).exec();
-
-    // send deleted product to front-end
-    res.send(deletedProduct);
-  } catch (error) {
-    console.log(error);
-    return res.status(400).send("Product delete failed");
+    res.json(deleted);
+  } catch (e) {
+    console.log("Delete failed", error.message);
+    res.status(400).send("Delete failed");
   }
 };
+// exports.remove = async (req, res) => {
+
+// };

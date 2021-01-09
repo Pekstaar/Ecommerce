@@ -1,20 +1,30 @@
-import { Button } from "antd";
 import React, { useEffect, useState } from "react";
 import AdminProductCard from "../../../components/cards/AdminProductCard";
 import AdminNav from "../../../components/nav/AdminNav";
 import Navigation from "../../../components/nav/TitleNavigation";
-import { getProductsByCount } from "../../../functions/product";
+
+import { getProductsByCount, remove } from "../../../functions/product";
+import { Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-// import { getProductsByCount } from "../../functions/product";
+import { useSelector } from "react-redux";
+import { NotificationManager } from "react-notifications";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState([]);
 
+  // redux user access
+  const { user } = useSelector((state) => ({ ...state }));
+
   useEffect(() => {
     loadProducts(10);
   }, []);
 
+  // const { slug } = products;
+
+  // functions
+
+  // load products from backend function
   const loadProducts = (len) => {
     setLoading(true);
     getProductsByCount(len)
@@ -28,6 +38,32 @@ const Products = () => {
       });
   };
 
+  // delete product function
+  const handleRemove = (slug) => {
+    // setLoading true
+    setLoading(true);
+
+    if (window.confirm("Delete Product?")) {
+      // console.log("Delete Requested!", slug);
+      remove(slug, user.token)
+        .then((res) => {
+          loadProducts();
+          NotificationManager.warning(
+            `${res.data.title} deleted!`,
+            "Product Delete"
+          );
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+          if (err.status === 400)
+            NotificationManager.error(err.response.data, "Error");
+        });
+    }
+  };
+
+  // body
   return (
     <div className="container-fluid">
       <div className="row">
@@ -77,6 +113,7 @@ const Products = () => {
                           border: "none",
                         }}
                         danger
+                        onClick={() => handleRemove(p.slug)}
                       >
                         DELETE &nbsp; <DeleteOutlined />
                       </Button>

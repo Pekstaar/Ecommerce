@@ -21,7 +21,13 @@ const AdminProductCard = ({ product }) => {
       >
         <Meta
           title={title}
-          description={`${description && description.substring(0, 53)} . . .`}
+          description={
+            description.length >= 53
+              ? `${description && description.substring(0, 53)} . . .`
+              : description.length < 50
+              ? `${description}\n . . .`
+              : description
+          }
         />
       </Card>
     </div>
