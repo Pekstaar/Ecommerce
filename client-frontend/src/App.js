@@ -26,6 +26,7 @@ import { Password } from "./pages/user/Password.js";
 import { WishList } from "./pages/user/Wishlist.js";
 import { AdminRoute } from "./components/routes/AdminRoute.js";
 import { DBStatus } from "./functions/DBConn.js";
+import ProductUpdate from "./pages/admin/product/productUpdate.js";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -82,6 +83,11 @@ const App = () => {
         <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate} />
         <AdminRoute exact path="/admin/product" component={ProductCreate} />
         <AdminRoute exact path="/admin/products" component={Products} />
+        <AdminRoute
+          exact
+          path="/admin/product/:slug"
+          component={ProductUpdate}
+        />
       </Switch>
     </div>
   );

@@ -4,14 +4,16 @@ import { Button, Input, Select } from "antd";
 
 const { Option } = Select;
 
-export const CreateForm = ({
+export const ProductUpdateForm = ({
   handleSubmit,
   values,
   handleChange,
-  handleCategoryChange,
-  subOptions,
   setValues,
+  handleCategoryChange,
   categories,
+  subOptions,
+  subsArray,
+  setSubsArray,
 }) => {
   //   values destructuring
   const {
@@ -19,15 +21,15 @@ export const CreateForm = ({
     description,
     price,
     // categories,
-    // category,
-    subs,
-    // shipping,
+    category,
+    // subs,
+    shipping,
     quantity,
     brands,
+    brand,
     // images,
     colors,
-    // color,
-    // brand,
+    color,
   } = values;
   return (
     <form
@@ -111,7 +113,7 @@ export const CreateForm = ({
         </span>
 
         <select
-          className=" col-md-12 h3 btn border product_create__form_select"
+          className=" col-md-12 h3 btn border product_create__form_select text-dark"
           style={{
             background: "#fff",
             borderRadius: "0 12px 0 12px",
@@ -119,10 +121,11 @@ export const CreateForm = ({
           }}
           name="shipping"
           required
-          // value={secondCity}
+          value={shipping === "yes" ? "yes" : "No"}
           onChange={handleChange}
         >
           <option>Shipping?</option>
+
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
@@ -151,15 +154,19 @@ export const CreateForm = ({
       </div>
 
       {/* colors */}
-      <div className="product_create__form_div">
+      <div className="product_create__form_div ">
         <span
-          style={{ fontSize: "16px", fontStyle: "italic", fontWeight: "500" }}
+          style={{
+            fontSize: "16px",
+            fontStyle: "italic",
+            fontWeight: "500",
+          }}
         >
-          COLORS:
+          COLOR:
         </span>
 
         <select
-          className=" col-md-12 h3 btn border product_create__form_select"
+          className=" col-md-12 h3 btn border product_create__form_select text-dark"
           style={{
             background: "#fff",
             borderRadius: "0 12px 0 12px",
@@ -167,7 +174,7 @@ export const CreateForm = ({
           }}
           name="color"
           required
-          // value={secondCity}
+          value={color}
           onChange={handleChange}
         >
           <option> - - - Select Color - - -</option>
@@ -188,7 +195,7 @@ export const CreateForm = ({
         </span>
 
         <select
-          className=" col-md-12 h3 btn border product_create__form_select"
+          className=" col-md-12 h3 btn border product_create__form_select text-dark"
           style={{
             background: "#fff",
             borderRadius: "0 12px 0 12px",
@@ -196,17 +203,17 @@ export const CreateForm = ({
           }}
           name="brand"
           required
-          // value={secondCity}
+          value={brand}
           onChange={handleChange}
         >
           <option> - - - Select Brand - - -</option>
-          {brands.map((b, index) => (
-            <option key={index}>{b}</option>
-          ))}
+          {brands && brands.map((b, index) => <option key={index}>{b}</option>)}
         </select>
       </div>
 
-      {/* Categories */}
+      {/* {JSON.stringify(subOptions)} */}
+
+      {/* Load Categories */}
       <div className="product_create__form_div">
         <span
           style={{ fontSize: "16px", fontStyle: "italic", fontWeight: "500" }}
@@ -215,7 +222,7 @@ export const CreateForm = ({
         </span>
 
         <select
-          className=" col-md-12 h3 btn border product_create__form_select"
+          className=" col-md-12 h3 btn border product_create__form_select text-dark"
           style={{
             background: "#fff",
             borderRadius: "0 12px 0 12px",
@@ -225,16 +232,18 @@ export const CreateForm = ({
           name="category"
           onChange={handleCategoryChange}
         >
-          <option value="">. . . click to Select Category</option>
-          {categories.map((c) => (
-            <option value={c._id} key={c._id}>
-              {c.name}
-            </option>
-          ))}
+          <option>
+            {category ? category.name : `. . . click to Select Category`}
+          </option>
+          {categories.length > 0 &&
+            categories.map((c) => (
+              <option value={c._id} key={c._id}>
+                {c.name}
+              </option>
+            ))}
         </select>
       </div>
 
-      {/* {JSON.stringify(categories)} */}
       {/* subcategories */}
       <div className="product_create__form_div">
         <span
@@ -248,8 +257,8 @@ export const CreateForm = ({
           mode="multiple"
           // allowClear
           placeholder="- - - select Subcategories - - -"
-          onChange={(v) => setValues({ ...values, subs: v })}
-          value={subs}
+          onChange={(value) => setSubsArray(value)}
+          value={subsArray}
           // name="subs"
         >
           {subOptions.length &&
@@ -260,8 +269,6 @@ export const CreateForm = ({
             ))}
         </Select>
       </div>
-
-      {/* {JSON.stringify(subOptions)} */}
 
       <Button
         type="primary submit"

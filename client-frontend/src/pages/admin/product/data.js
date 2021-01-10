@@ -1,27 +1,28 @@
 // Product Create value init-state
 
+export const brands = [
+  "Dell",
+  "Microsoft",
+  "Mecer",
+  "Acer",
+  "Toshiba",
+  "Hp",
+  "Apple",
+  "Microsoft",
+];
+
 export const initialState = {
   title: "",
   description: "",
   price: "",
-  categories: "",
+  // categories: "",
   category: "",
   subs: [],
   shipping: "",
   quantity: "",
-  brands: [],
+  brands: brands,
   images: [],
-  colors: [
-    "Black",
-    "Blue",
-    "Brown",
-    "Grey",
-    "Silver",
-    "Red",
-    "golden",
-    "Pink",
-    "Other",
-  ],
+  colors: ["Black", "Grey", "White", "blue", "Other"],
   color: "",
   brand: "",
 };

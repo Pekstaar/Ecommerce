@@ -38,6 +38,12 @@ exports.removeProduct = async (req, res) => {
     res.status(400).send("Delete failed");
   }
 };
-// exports.remove = async (req, res) => {
 
-// };
+exports.read = async (req, res) => {
+  const product = await Product.findOne({ slug: req.params.slug })
+    .populate("category") //get category object details
+    .populate("subs")
+    .exec();
+
+  res.json(product);
+};

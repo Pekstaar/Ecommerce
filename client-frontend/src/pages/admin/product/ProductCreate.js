@@ -22,23 +22,16 @@ const ProductCreate = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // const [brands, setBrands] = useState([]);
-
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     // loadBrands();
     loadCategories();
-    fetch();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // const loadBrands = () => readBrands().then((c) => console.log(c));
-  const fetch = async (e) => {
-    const c = await Axios.get(`${process.env.REACT_APP_API}/product/brands`);
-    setValues({ ...values, brands: c.data });
-  };
 
   const loadCategories = () => {
     getCategories().then((c) => setCategories(c.data));

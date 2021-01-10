@@ -8,6 +8,7 @@ import { Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { NotificationManager } from "react-notifications";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -93,13 +94,19 @@ const Products = () => {
                       }}
                     >
                       {/* Edit product button */}
-                      <Button
-                        type="primary"
-                        className="btn"
-                        style={{ borderRadius: "0", border: "none" }}
-                      >
-                        EDIT &nbsp; <EditOutlined />
-                      </Button>
+                      <Link to={`/admin/product/${p.slug}`}>
+                        <Button
+                          type="primary"
+                          className="btn"
+                          style={{
+                            borderRadius: "0",
+                            border: "none",
+                            width: "100%",
+                          }}
+                        >
+                          EDIT &nbsp; <EditOutlined />
+                        </Button>
+                      </Link>
 
                       {/* spacer */}
                       <div style={{ backgroundColor: "white" }}> </div>
