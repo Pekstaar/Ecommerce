@@ -3,7 +3,6 @@ import Navigation from "../../../components/nav/TitleNavigation";
 import AdminNav from "../../../components/nav/AdminNav";
 import "./product.css";
 
-import { useSelector } from "react-redux";
 import { initialState } from "./data";
 import { getProduct } from "../../../functions/product";
 import { ProductUpdateForm } from "../../../components/forms/ProductUpdateForm";
@@ -14,11 +13,14 @@ const ProductUpdate = ({ match }) => {
   const [subOptions, setSubOptions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subsArray, setSubsArray] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("Hello");
 
   useEffect(() => {
     loadProduct(slug);
     loadCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log("Product Category", values.category);
+    console.log("Categories", categories);
   }, []);
 
   const { slug } = match.params;
@@ -30,6 +32,9 @@ const ProductUpdate = ({ match }) => {
     //populate values state
     getProduct(slug).then((r) => {
       setValues({ ...values, ...r.data });
+      console.log("Values after product load", values);
+
+      console.log("prodcut category", r.data.category);
 
       // get category subs
       getCategorySubs(r.data.category._id).then((s) => {
@@ -59,10 +64,26 @@ const ProductUpdate = ({ match }) => {
   // handle Category change
   const handleCategoryChange = (e) => {
     e.preventDefault();
-    setValues({ ...values, category: e.target.value });
+    console.log("Clicked Category", e.target.value);
+
+    setValues({ ...values, subs: [] });
+
+    setSelectedCategory(values.category);
+
     getCategorySubs(e.target.value).then((res) => {
+      console.log("Subs on category click", res);
       setSubOptions(res.data);
     });
+    console.log("Selected existing category", values.category);
+
+    // load categories back if user clicks the original product category
+    if (values.category._id === e.target.value) {
+      loadProduct();
+      console.log("Product category on selected change: ", values.category);
+    }
+
+    //set previous array of selection to 0
+    setSubsArray([]);
   };
 
   // handleChange
@@ -87,16 +108,18 @@ const ProductUpdate = ({ match }) => {
 
           {/* create product form */}
           <div className="product_create__form_container bg-light mt-2">
-            {/* {JSON.stringify(values)} */}
+            {JSON.stringify(values)}
             <ProductUpdateForm
               handleSubmit={null}
               handleChange={handleChange}
+              handleCategoryChange={handleCategoryChange}
               values={values}
               setValues={setValues}
               categories={categories}
               subOptions={subOptions}
               subsArray={subsArray}
               setSubsArray={setSubsArray}
+              selectedCategory={selectedCategory}
             />
           </div>
         </div>

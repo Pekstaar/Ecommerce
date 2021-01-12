@@ -8,12 +8,13 @@ export const ProductUpdateForm = ({
   handleSubmit,
   values,
   handleChange,
-  setValues,
+  // setValues,
   handleCategoryChange,
   categories,
   subOptions,
   subsArray,
   setSubsArray,
+  selectedCategory,
 }) => {
   //   values destructuring
   const {
@@ -31,6 +32,17 @@ export const ProductUpdateForm = ({
     colors,
     color,
   } = values;
+
+  // console.log("Current product category:", category.name);
+  // console.log("Selected category: -should be null-", selectedCategory);
+
+  // if (!selectedCategory) {
+  //   categoryValue = category && category;
+  //   console.log(categoryValue);
+  // } else {
+  //   categoryValue = selectedCategory;
+  // }
+
   return (
     <form
       className="product_create__form"
@@ -228,13 +240,11 @@ export const ProductUpdateForm = ({
             borderRadius: "0 12px 0 12px",
             margin: "10px 0",
           }}
-          // value={secondCity}
           name="category"
+          // multiple={true}
           onChange={handleCategoryChange}
+          // value={category}
         >
-          <option>
-            {category ? category.name : `. . . click to Select Category`}
-          </option>
           {categories.length > 0 &&
             categories.map((c) => (
               <option value={c._id} key={c._id}>

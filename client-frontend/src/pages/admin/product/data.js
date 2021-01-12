@@ -15,7 +15,7 @@ export const initialState = {
   title: "",
   description: "",
   price: "",
-  // categories: "",
+  categories: "",
   category: "",
   subs: [],
   shipping: "",
