@@ -13,7 +13,7 @@ const ProductUpdate = ({ match }) => {
   const [subOptions, setSubOptions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subsArray, setSubsArray] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("Hello");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     loadProduct(slug);
@@ -32,9 +32,6 @@ const ProductUpdate = ({ match }) => {
     //populate values state
     getProduct(slug).then((r) => {
       setValues({ ...values, ...r.data });
-      console.log("Values after product load", values);
-
-      console.log("prodcut category", r.data.category);
 
       // get category subs
       getCategorySubs(r.data.category._id).then((s) => {
@@ -56,9 +53,13 @@ const ProductUpdate = ({ match }) => {
   // load Categories
   const loadCategories = () => {
     getCategories().then((c) => {
-      // console.log(c.data);
+      console.log("getCategories in Product update: ", c.data);
       setCategories(c.data);
     });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
   // handle Category change
@@ -68,7 +69,7 @@ const ProductUpdate = ({ match }) => {
 
     setValues({ ...values, subs: [] });
 
-    setSelectedCategory(values.category);
+    setSelectedCategory(e.target.value);
 
     getCategorySubs(e.target.value).then((res) => {
       console.log("Subs on category click", res);
@@ -79,7 +80,7 @@ const ProductUpdate = ({ match }) => {
     // load categories back if user clicks the original product category
     if (values.category._id === e.target.value) {
       loadProduct();
-      console.log("Product category on selected change: ", values.category);
+      // console.log("Product category on selected change: ", values.category);
     }
 
     //set previous array of selection to 0

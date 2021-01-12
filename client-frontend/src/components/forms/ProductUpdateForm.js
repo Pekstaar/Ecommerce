@@ -243,7 +243,7 @@ export const ProductUpdateForm = ({
           name="category"
           // multiple={true}
           onChange={handleCategoryChange}
-          // value={category}
+          value={selectedCategory ? selectedCategory : category._id}
         >
           {categories.length > 0 &&
             categories.map((c) => (
