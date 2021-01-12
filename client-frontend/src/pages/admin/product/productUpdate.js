@@ -21,6 +21,7 @@ const ProductUpdate = ({ match }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     console.log("Product Category", values.category);
     console.log("Categories", categories);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { slug } = match.params;
