@@ -7,6 +7,10 @@ import { initialState } from "./data";
 import { getProduct } from "../../../functions/product";
 import { ProductUpdateForm } from "../../../components/forms/ProductUpdateForm";
 import { getCategories, getCategorySubs } from "../../../functions/category";
+import Avatar from "antd/lib/avatar/avatar";
+import { Badge } from "antd";
+import FileUpload from "../../../components/forms/FileUpload";
+import { useSelector } from "react-redux";
 
 const ProductUpdate = ({ match }) => {
   const [values, setValues] = useState(initialState);
@@ -14,13 +18,15 @@ const ProductUpdate = ({ match }) => {
   const [categories, setCategories] = useState([]);
   const [subsArray, setSubsArray] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    loadProduct(slug);
+    loadProduct();
     loadCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    console.log("Product Category", values.category);
-    console.log("Categories", categories);
+    // console.log("Product Category", values.category);
+    // console.log("Categories", categories);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -29,8 +35,9 @@ const ProductUpdate = ({ match }) => {
 
   // db Functions
   // getProduct
-  const loadProduct = (slug) => {
+  const loadProduct = () => {
     //populate values state
+
     getProduct(slug).then((r) => {
       setValues({ ...values, ...r.data });
 
@@ -41,8 +48,9 @@ const ProductUpdate = ({ match }) => {
 
       // sub_Ids array preparations
       let sArray = [];
+      // eslint-disable-next-line array-callback-return
       r.data.subs.map((s) => {
-        return sArray.push(s._id);
+        sArray.push(s._id);
       });
 
       // console.log(sArray);
@@ -68,7 +76,7 @@ const ProductUpdate = ({ match }) => {
     e.preventDefault();
     console.log("Clicked Category", e.target.value);
 
-    setValues({ ...values, subs: [] });
+    setValues({ ...values });
 
     setSelectedCategory(e.target.value);
 
@@ -86,6 +94,11 @@ const ProductUpdate = ({ match }) => {
 
     //set previous array of selection to 0
     setSubsArray([]);
+  };
+
+  // handle remove image
+  const handleImageRemove = () => {
+    //  handle image remove
   };
 
   // handleChange
@@ -110,7 +123,38 @@ const ProductUpdate = ({ match }) => {
 
           {/* create product form */}
           <div className="product_create__form_container bg-light mt-2">
-            {JSON.stringify(values)}
+            <div className="border p-2 ">
+              <div className="row pl-2 ">
+                {values.images &&
+                  values.images.map((image) => (
+                    <Badge
+                      key={image.public_id}
+                      count={"x"}
+                      className="ml-3 mb-2"
+                      title="Delete?"
+                      size="default"
+                      style={{
+                        background: "#F32013",
+                        cursor: "pointer",
+                        fontSize: "15px",
+                        fontWeight: "500",
+                      }}
+                      onClick={() => handleImageRemove(image.public_id)}
+                    >
+                      <Avatar src={image.url} size={158} shape="square" />
+                    </Badge>
+                  ))}
+              </div>
+              <FileUpload
+                user={user}
+                setLoading={setLoading}
+                values={values}
+                setValues={setValues}
+              />
+            </div>
+
+            {/* {JSON.stringify(values)} */}
+
             <ProductUpdateForm
               handleSubmit={null}
               handleChange={handleChange}

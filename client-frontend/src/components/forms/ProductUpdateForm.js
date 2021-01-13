@@ -33,15 +33,15 @@ export const ProductUpdateForm = ({
     color,
   } = values;
 
-  // console.log("Current product category:", category.name);
-  // console.log("Selected category: -should be null-", selectedCategory);
+  let loadedBrands = [];
 
-  // if (!selectedCategory) {
-  //   categoryValue = category && category;
-  //   console.log(categoryValue);
-  // } else {
-  //   categoryValue = selectedCategory;
-  // }
+  brands.forEach((b) => {
+    if (b !== brand) {
+      loadedBrands.push(b);
+    }
+  });
+
+  // console.log("Brands", loadedBrands);
 
   return (
     <form
@@ -215,11 +215,13 @@ export const ProductUpdateForm = ({
           }}
           name="brand"
           required
-          value={brand}
+          // value={brand}
           onChange={handleChange}
         >
-          <option> - - - Select Brand - - -</option>
-          {brands && brands.map((b, index) => <option key={index}>{b}</option>)}
+          <option>{brand}</option>
+          {loadedBrands.map((b, index) => (
+            <option key={index}>{b}</option>
+          ))}
         </select>
       </div>
 
@@ -287,7 +289,6 @@ export const ProductUpdateForm = ({
         block
         shape="round"
         icon={<SendOutlined />}
-        // disabled={!email || password.length < 6}
       >
         Submit
       </Button>
