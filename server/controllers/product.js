@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const slugify = require("slugify");
+const { findOneAndUpdate } = require("../models/product");
 
 exports.create = async (req, res) => {
   try {
@@ -46,4 +47,23 @@ exports.read = async (req, res) => {
     .exec();
 
   res.json(product);
+};
+
+exports.updateProduct = async (req, res) => {
+  try {
+    if (req.body.title) {
+      req.body.slug = slugify(req.body.title);
+    }
+
+    const toUpdate = await findOneAndUpdate(
+      { slug: req.params.slug },
+      req.body,
+      { new: true }
+    );
+
+    res.json(toUpdate);
+  } catch (err) {
+    console.log("Product Update error! ===>", err);
+    return res.status(400).send("Product Update Failed");
+  }
 };
