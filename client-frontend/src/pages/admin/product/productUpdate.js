@@ -4,15 +4,17 @@ import AdminNav from "../../../components/nav/AdminNav";
 import "./product.css";
 
 import { initialState } from "./data";
-import { getProduct } from "../../../functions/product";
+import { getProduct, updateProduct } from "../../../functions/product";
 import { ProductUpdateForm } from "../../../components/forms/ProductUpdateForm";
 import { getCategories, getCategorySubs } from "../../../functions/category";
 import Avatar from "antd/lib/avatar/avatar";
 import { Badge } from "antd";
 import FileUpload from "../../../components/forms/FileUpload";
 import { useSelector } from "react-redux";
+import { NotificationManager } from "react-notifications";
+import axios from "axios";
 
-const ProductUpdate = ({ match }) => {
+const ProductUpdate = ({ match, history }) => {
   const [values, setValues] = useState(initialState);
   const [subOptions, setSubOptions] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -69,6 +71,25 @@ const ProductUpdate = ({ match }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+
+    values.subs = subsArray;
+    values.category = selectedCategory ? selectedCategory : values.category;
+
+    updateProduct(slug, values, user.token)
+      .then((res) => {
+        setLoading(false);
+        NotificationManager.success(
+          `${res.data.title} Updated Successfully!`,
+          "SUCCESS!"
+        );
+        history.push("/admin/products");
+      })
+      .catch((err) => {
+        console.log("Product update Error", err);
+        setLoading(false);
+        NotificationManager.error(err.response.data.err);
+      });
   };
 
   // handle Category change
@@ -97,13 +118,39 @@ const ProductUpdate = ({ match }) => {
   };
 
   // handle remove image
-  const handleImageRemove = () => {
-    //  handle image remove
+  const handleImageRemove = (public_id) => {
+    //delete function
+    setLoading(true);
+    // console.log("remove image", id);
+    axios
+      .post(
+        `${process.env.REACT_APP_API}/removeimage`,
+        { public_id },
+        {
+          headers: {
+            authtoken: user ? user.token : "",
+          },
+        }
+      )
+      .then((res) => {
+        const { images } = values;
+
+        let filtImages = images.filter((item) => {
+          return item.public_id !== public_id;
+        });
+
+        setValues({ ...values, images: filtImages });
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   // handleChange
   const handleChange = (e) => {
-    e.preventDefault();
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   return (
@@ -119,7 +166,7 @@ const ProductUpdate = ({ match }) => {
           {/* Product create From */}
 
           {/* title display */}
-          <Navigation heading="UPDATE PRODUCT :" loading={false} />
+          <Navigation heading="UPDATE PRODUCT :" loading={loading} />
 
           {/* create product form */}
           <div className="product_create__form_container bg-light mt-2">
@@ -156,7 +203,7 @@ const ProductUpdate = ({ match }) => {
             {/* {JSON.stringify(values)} */}
 
             <ProductUpdateForm
-              handleSubmit={null}
+              handleSubmit={handleSubmit}
               handleChange={handleChange}
               handleCategoryChange={handleCategoryChange}
               values={values}

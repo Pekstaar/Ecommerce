@@ -24,9 +24,7 @@ const AdminProductCard = ({ product }) => {
           description={
             description.length >= 53
               ? `${description && description.substring(0, 53)} . . .`
-              : description.length < 50
-              ? `${description}\n . . .`
-              : description
+              : description.length < 50 && `${description}...\n`
           }
         />
       </Card>
