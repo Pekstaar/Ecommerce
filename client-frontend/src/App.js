@@ -8,7 +8,7 @@ import Header from "./components/nav/Header.js";
 import Login from "./pages/auth/Login.js";
 import Register from "./pages/auth/Register.js";
 import RegisterComplete from "./pages/auth/RegisterComplete";
-import Home from "./pages/Home";
+import Home from "./pages/Home.js";
 import AdminDashbord from "./pages/admin/AdminDashbord.js";
 import CategoryUpdate from "./pages/admin/category/CategoryUpdate.js";
 import CategoryCreate from "./pages/admin/category/CategoryCreate.js";
