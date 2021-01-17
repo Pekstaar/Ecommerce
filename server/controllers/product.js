@@ -72,12 +72,19 @@ exports.updateProduct = async (req, res) => {
 
 exports.list = async (req, res) => {
   try {
-    const { sort, order, limit } = req.body;
+    const { sort, order, page } = req.body;
+    // set default start page
+    const currentPage = page || 1;
+    //how many products do display per page
+    const perPage = 6;
+
     const products = await Product.find({})
+      // skip products according to page grouping(perPage) until the desired product number is reached
+      .skip((currentPage - 1) * perPage)
       .populate("category")
       .populate("subs")
       .sort([[sort, order]])
-      .limit(limit)
+      .limit(perPage) //display prodcuts limit as in the per page
       .exec();
 
     res.json(products);
