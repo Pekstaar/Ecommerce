@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Jumbotron from "../components/cards/Jumbotron";
-import LoadingCard from "../components/cards/LoadingCard";
-import ProdcuctCard from "../components/cards/ProdcuctCard";
 import BestSellers from "../components/home/BestSellers";
 import NewArrivals from "../components/home/NewArrivals";
-import TabNav from "../components/nav/TabNav";
 import { getProducts } from "../functions/product";
 // import { RightOutlined } from "@ant-design/icons";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadProducts();
   }, []);
 
   const loadProducts = () => {
-    setLoading(true);
+    // setLoading(true);
     //fetch by sort, order, limit
     getProducts("createdAt", "asc", 4).then((r) => {
-      setLoading(false);
+      // setLoading(false);
       setProducts(r.data);
     });
   };

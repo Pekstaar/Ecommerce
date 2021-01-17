@@ -104,28 +104,6 @@ const ProdcuctCard = ({ product }) => {
         />
         {actions}
       </Card>
-
-      {/* <Card
-        className="border mb-3"
-        cover={
-          <img
-            src={images && images.length ? images[0].url : blank}
-            alt=""
-            style={{ height: 240, objectFit: "cover" }}
-          />
-        }
-      >
-        <Meta
-          title={title}
-          className="mb-4 "
-          description={
-            description.length >= 53
-              ? `${description && description.substring(0, 53)} . . .`
-              : description.length < 50 && `${description}...\n`
-          }
-        />
-        {actions}
-      </Card> */}
     </>
   );
 };
