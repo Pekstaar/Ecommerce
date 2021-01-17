@@ -62,7 +62,7 @@ const ProdcuctCard = ({ product }) => {
     <>
       <Card
         className="border mb-3"
-        style={{ height: "480px" }}
+        // style={{ height: "480px" }}
         cover={
           <img
             src={images && images.length ? images[0].url : blank}
@@ -105,7 +105,7 @@ const ProdcuctCard = ({ product }) => {
         {actions}
       </Card>
 
-      <Card
+      {/* <Card
         className="border mb-3"
         cover={
           <img
@@ -125,7 +125,7 @@ const ProdcuctCard = ({ product }) => {
           }
         />
         {actions}
-      </Card>
+      </Card> */}
     </>
   );
 };

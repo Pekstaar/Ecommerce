@@ -7,12 +7,16 @@ const {
   removeProduct,
   read,
   updateProduct,
+  list,
 } = require("../controllers/product");
+const product = require("../models/product");
 
 router.post("/product", authCheck, adminCheck, create);
 router.get("/products/:count", listProducts);
 router.delete("/product/:slug", authCheck, adminCheck, removeProduct);
 router.get("/product/:slug", read); //get single product based on slug
 router.put("/product/:slug", authCheck, adminCheck, updateProduct);
+
+router.post("/products", list);
 
 module.exports = router;

@@ -34,3 +34,11 @@ export const updateProduct = async (slug, prod, authtoken) =>
       authtoken,
     },
   });
+
+//get products based on sort, limit or order query
+export const getProducts = async (sort, order, limit) =>
+  await axios.post(`${process.env.REACT_APP_API}/products`, {
+    sort,
+    order,
+    limit,
+  });
