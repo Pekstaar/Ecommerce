@@ -86,6 +86,7 @@ exports.list = async (req, res) => {
       .sort([[sort, order]])
       .limit(perPage) //display prodcuts limit as in the per page
       .exec();
+    // test/
 
     res.json(products);
   } catch (err) {
