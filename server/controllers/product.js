@@ -70,13 +70,29 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
+// exports.list = async (req, res) => {
+//   try {
+//     const { sort, order, limit } = req.body;
+//     const products = await Product.find({})
+//       .populate("category")
+//       .populate("subs")
+//       .sort([[sort, order]])
+//       .limit(limit)
+//       .exec();
+
+//     res.json(products);
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// };
+
 exports.list = async (req, res) => {
   try {
     const { sort, order, page } = req.body;
     // set default start page
     const currentPage = page || 1;
     //how many products do display per page
-    const perPage = 6;
+    const perPage = 4;
 
     const products = await Product.find({})
       // skip products according to page grouping(perPage) until the desired product number is reached

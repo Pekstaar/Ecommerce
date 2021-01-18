@@ -1,5 +1,6 @@
+import { Pagination } from "antd";
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../../functions/product";
+import { getProducts, getProductsCount } from "../../functions/product";
 import LoadingCard from "../cards/LoadingCard";
 import ProdcuctCard from "../cards/ProdcuctCard";
 import TabNav from "../nav/TabNav";
@@ -7,16 +8,22 @@ import TabNav from "../nav/TabNav";
 const NewArrivals = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [productsCount, setProductsCount] = useState(0);
+  const [page, setPage] = useState(1);
   //   const [styling] = useState({  });
 
   useEffect(() => {
     loadProducts();
   }, []);
 
+  useEffect(() => {
+    getProductsCount().then((res) => setProductsCount(res.data));
+  }, []);
+
   const loadProducts = () => {
     setLoading(true);
     //fetch by sort, order, limit
-    getProducts("createdAt", "asc", 4).then((r) => {
+    getProducts("createdAt", "desc", 4).then((r) => {
       setLoading(false);
       setProducts(r.data);
     });
@@ -26,6 +33,7 @@ const NewArrivals = () => {
 
   return (
     <div className="container">
+      {/* {productsCount} */}
       <TabNav title={"New-Arrivals"} bgColor="#FF8C00" />
       {loading ? (
         <LoadingCard count={8} />
@@ -38,6 +46,8 @@ const NewArrivals = () => {
           ))}
         </div>
       )}
+
+      <Pagination />
     </div>
   );
 };
