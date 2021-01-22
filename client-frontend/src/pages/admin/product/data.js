@@ -22,7 +22,7 @@ export const initialState = {
   quantity: "",
   brands: brands,
   images: [],
-  colors: ["Black", "Grey", "White", "blue", "Other"],
+  colors: ["Black", "Grey", "White", "blue", "mixed", "Other"],
   color: "",
   brand: "",
 };

@@ -14,7 +14,7 @@ const NewArrivals = () => {
 
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     getProductsCount().then((res) => setProductsCount(res.data));
@@ -23,7 +23,7 @@ const NewArrivals = () => {
   const loadProducts = () => {
     setLoading(true);
     //fetch by sort, order, limit
-    getProducts("createdAt", "desc", 4).then((r) => {
+    getProducts("createdAt", "desc", page).then((r) => {
       setLoading(false);
       setProducts(r.data);
     });
@@ -47,7 +47,12 @@ const NewArrivals = () => {
         </div>
       )}
 
-      <Pagination />
+      <Pagination
+        className="float-right"
+        total={(productsCount / 4) * 10}
+        current={page}
+        onChange={(value) => setPage(value)}
+      />
     </div>
   );
 };

@@ -4,9 +4,25 @@ import blank from "../images/blank-laptop.png";
 import { Link } from "react-router-dom";
 import { ShoppingFilled, EyeFilled } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
+import { createUseStyles } from "react-jss";
 // return <div className="text-center">{product.title}</div>
 
+const useStyles = createUseStyles({
+  card: {
+    border: "1px solid rgb(222, 226, 230) ",
+    padding: "1px 1px",
+    marginBottom: "1em",
+
+    "& .ant-card-meta-description": {
+      height: "44px",
+      overflow: "hidden",
+    },
+  },
+});
+
 const ProdcuctCard = ({ product }) => {
+  const classes = useStyles();
+
   const { images, description, title, slug } = product;
 
   const actions = (
@@ -61,7 +77,9 @@ const ProdcuctCard = ({ product }) => {
   return (
     <>
       <Card
-        className="border mb-3"
+        className={classes.card}
+        // className="border mb-3"
+        // style={{ maxHeight: "423px", overflow: "hidden" }}
         // style={{ height: "480px" }}
         cover={
           <img
@@ -84,7 +102,9 @@ const ProdcuctCard = ({ product }) => {
       </Card>
 
       <Card
-        className="border mb-3"
+        className={classes.card}
+        // className="border mb-3"
+        // style={{ maxHeight: "423px", overflow: "hidden" }}
         cover={
           <img
             src={images && images.length ? images[1].url : blank}

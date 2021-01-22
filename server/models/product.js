@@ -63,9 +63,9 @@ const productSchema = new mongoose.Schema(
         "Grey",
         "Silver",
         "Red",
-        "golden",
         "Pink",
         "Other",
+        "Mixed",
       ],
     },
     brand: {
