@@ -7,6 +7,7 @@ import Meta from "antd/lib/card/Meta";
 import { createUseStyles } from "react-jss";
 // return <div className="text-center">{product.title}</div>
 
+// JSS styling
 const useStyles = createUseStyles({
   card: {
     border: "1px solid rgb(222, 226, 230) ",
@@ -15,15 +16,36 @@ const useStyles = createUseStyles({
 
     "& .ant-card-meta-description": {
       height: "44px",
-      overflow: "hidden",
+      // overflow: "hidden",
     },
+    "& .ant-card-body": {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+  },
+  label: {
+    fontSize: "11px",
+    verticalAlign: "top",
+  },
+
+  price: {
+    fontFamily: "Varela Round",
+    fontSize: "19px",
+    padding: "0",
+    color: "#013220",
+    // margin: "0 auto",
+    marginTop: "-1em",
+    marginBottom: ".4em",
+    // justifySelf: "center",
+    // float: "right",
   },
 });
 
 const ProdcuctCard = ({ product }) => {
   const classes = useStyles();
 
-  const { images, description, title, slug } = product;
+  const { images, description, title, slug, price } = product;
 
   const actions = (
     <div
@@ -74,8 +96,16 @@ const ProdcuctCard = ({ product }) => {
     </div>
   );
 
+  // Price label
+  const cost = (
+    <span className={classes.price}>
+      {price}
+      <label className={classes.label}>kshs</label>
+    </span>
+  );
+
   return (
-    <>
+    <span>
       <Card
         className={classes.card}
         // className="border mb-3"
@@ -98,6 +128,7 @@ const ProdcuctCard = ({ product }) => {
               : description.length < 50 && `${description}...\n`
           }
         />
+        {cost}
         {actions}
       </Card>
 
@@ -122,9 +153,10 @@ const ProdcuctCard = ({ product }) => {
               : description.length < 50 && `${description}...\n`
           }
         />
+        {cost}
         {actions}
       </Card>
-    </>
+    </span>
   );
 };
 
