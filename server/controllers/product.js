@@ -1,6 +1,7 @@
 const Product = require("../models/product");
 const slugify = require("slugify");
-const { findOneAndUpdate } = require("../models/product");
+const User = require("../models/user");
+// const { findOneAndUpdate } = require("../models/product");
 
 exports.create = async (req, res) => {
   try {
@@ -70,22 +71,6 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-// exports.list = async (req, res) => {
-//   try {
-//     const { sort, order, limit } = req.body;
-//     const products = await Product.find({})
-//       .populate("category")
-//       .populate("subs")
-//       .sort([[sort, order]])
-//       .limit(limit)
-//       .exec();
-
-//     res.json(products);
-//   } catch (err) {
-//     console.log(err.message);
-//   }
-// };
-
 exports.list = async (req, res) => {
   try {
     const { sort, order, page } = req.body;
@@ -114,4 +99,46 @@ exports.productsCount = async (req, res) => {
   let total = await Product.find({}).estimatedDocumentCount().exec();
 
   res.json(total);
+};
+
+exports.productStar = async (req, res) => {
+  const product = await Product.findById(req.params.productId).exec();
+  const user = await User.findOne({ email: req.user.email }).exec();
+  const { star } = req.body;
+
+  // verify updater
+  // check if user has already rated product.
+  let existingRating = product.ratings.find(
+    (element) => element.postedBy.toString() === user._id.toString()
+  );
+
+  // if user has no rating, push rating
+  if (existingRating === undefined) {
+    let ratingAdded = await Product.findByIdAndUpdate(
+      product._id,
+      {
+        $push: { ratings: { star, postedBy: user._id } },
+      },
+      { new: true }
+    ).exec();
+
+    console.log("Rated product", ratingAdded);
+
+    res.json(ratingAdded);
+  } else {
+    // if user left rating, update rating
+
+    // access product rating and update objects
+    const ratingUpdated = await product
+      .updateOne(
+        {
+          ratings: { $elemMatch: existingRating },
+        },
+        { $set: { "ratings.$.star": star } }
+      )
+      .exec();
+
+    console.log("rating updated", ratingUpdated);
+    res.json(ratingUpdated);
+  }
 };

@@ -9,6 +9,7 @@ const {
   updateProduct,
   list,
   productsCount,
+  productStar,
 } = require("../controllers/product");
 const product = require("../models/product");
 
@@ -21,5 +22,8 @@ router.get("/product/:slug", read); //get single product based on slug
 router.put("/product/:slug", authCheck, adminCheck, updateProduct);
 
 router.post("/products", list);
+
+//ratings
+router.put("/product/star/:productId", authCheck, productStar);
 
 module.exports = router;
