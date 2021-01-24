@@ -27,6 +27,7 @@ import { WishList } from "./pages/user/Wishlist.js";
 import { AdminRoute } from "./components/routes/AdminRoute.js";
 import { DBStatus } from "./functions/DBConn.js";
 import ProductUpdate from "./pages/admin/product/productUpdate.js";
+import Product from "./pages/GeneralProduct/Product.js";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -88,6 +89,7 @@ const App = () => {
           path="/admin/product/:slug"
           component={ProductUpdate}
         />
+        <Route exact path="/product/:slug" component={Product} />
       </Switch>
     </div>
   );

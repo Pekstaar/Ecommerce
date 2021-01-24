@@ -57,7 +57,7 @@ const ProdcuctCard = ({ product }) => {
       }}
     >
       {/* Edit product button */}
-      <Link to={`/admin/product/${slug}`}>
+      <Link to={`/product/${slug}`}>
         <Button
           type="primary"
           className="btn"
